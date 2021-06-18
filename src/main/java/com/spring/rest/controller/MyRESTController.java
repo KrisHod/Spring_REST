@@ -1,12 +1,13 @@
 package com.spring.rest.controller;
 
 import com.spring.rest.entity.Employee;
-import com.spring.rest.service.EmployeeService;
+import com.spring.rest.exception.EmployeeIncorrectData;
+import com.spring.rest.exception.NoSuchEmployeeException;
 import com.spring.rest.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +20,17 @@ public class MyRESTController {
 
     @GetMapping("/employees")
     public List<Employee> showAll() {
-        List<Employee> allEmployees = employeeService.getAll();
-        return allEmployees;
+        return employeeService.getAll();
     }
+
+    @GetMapping("/employees/{id}")
+    public Employee getById (@PathVariable int id){
+       Employee employee =  employeeService.getById(id);
+
+       if(employee==null){
+throw new NoSuchEmployeeException("There is no employee with ID = " + id + " in DB");
+       }
+       return employee;
+    }
+
 }
