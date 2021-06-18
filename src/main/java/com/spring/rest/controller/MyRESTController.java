@@ -33,4 +33,15 @@ throw new NoSuchEmployeeException("There is no employee with ID = " + id + " in 
        return employee;
     }
 
+    @PostMapping("/employees")
+    public Employee addEmployee(@RequestBody Employee employee){
+        employeeService.save(employee);
+        return employee;
+    }
+
+    @PutMapping("/employees")
+    public Employee updateEmployee(@RequestBody Employee employee){
+        employeeService.save(employee);
+        return employee;
+    }
 }
